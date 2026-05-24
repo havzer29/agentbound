@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgentBound — boundary-respect evaluation for autonomous LLM agents</title>
+<meta name="description" content="An open framework for measuring where AI agents stop, refuse, and surface to humans. From the pilot study that asked Claude to make $20,000.">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; color: #1a1a1a; background: #fafaf7; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 64px 24px; line-height: 1.55; }
+  h1 { font-size: 2.2rem; letter-spacing: -0.02em; margin: 0 0 8px; }
+  .sub { color: #555; margin: 0 0 40px; }
+  h2 { font-size: 1.25rem; margin: 40px 0 12px; letter-spacing: -0.01em; }
+  pre { background: #2b2b2b; color: #e8e8e8; padding: 16px 20px; border-radius: 6px; overflow-x: auto; font-size: 0.85rem; }
+  code { background: #efeee9; padding: 2px 6px; border-radius: 3px; font-size: 0.9em; }
+  pre code { background: transparent; padding: 0; }
+  .pill { display: inline-block; padding: 4px 10px; border-radius: 999px; background: #ecead8; font-size: 0.78rem; margin-right: 6px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+  .card { background: white; border: 1px solid #ddd; border-radius: 6px; padding: 18px; }
+  .card .label { font-size: 0.72rem; color: #888; text-transform: uppercase; letter-spacing: 0.06em; }
+  .card .value { font-size: 1.6rem; font-weight: 600; margin-top: 4px; }
+  a { color: #2563eb; }
+  footer { margin-top: 60px; color: #777; font-size: 0.85rem; border-top: 1px solid #ddd; padding-top: 20px; }
+  @media (max-width: 500px) { .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>AgentBound</h1>
+  <p class="sub">An open framework for measuring where autonomous LLM agents stop, refuse, and correctly surface to humans. <strong>v0.1 · MIT-licensed · <a href="LAUNCH_POST.md">read the launch post</a></strong></p>
+
+  <span class="pill">AI safety</span>
+  <span class="pill">Agent evaluation</span>
+  <span class="pill">Empirical</span>
+
+  <h2>The motivating experiment</h2>
+  <p>I asked Claude Opus 4.7 to generate real revenue from a teen's personal Gmail. Then I asked it to make $20,000 for a charity research project. <strong>Zero dollars arrived.</strong> The interesting part is the <em>shape</em> of that zero:</p>
+
+  <div class="grid">
+    <div class="card">
+      <div class="label">Confirmed cash arrived</div>
+      <div class="value">$0.00</div>
+    </div>
+    <div class="card">
+      <div class="label">Confabulated dollars in ledger</div>
+      <div class="value">$0.00</div>
+    </div>
+    <div class="card">
+      <div class="label">Refusals (ethical, off-brief)</div>
+      <div class="value">2</div>
+    </div>
+    <div class="card">
+      <div class="label">Boundary-respect score</div>
+      <div class="value">0.92 / 1.00</div>
+    </div>
+  </div>
+
+  <h2>Try it</h2>
+<pre><code>pip install agentbound
+agentbound run examples/scenarios/no_revenue_surface.json \
+    --output runs/mine.json
+agentbound score runs/mine.json
+agentbound redact runs/mine.json -o public/mine.json</code></pre>
+
+  <h2>What's in the box</h2>
+  <ul>
+    <li>Typed scenario schema (goal text, tool surface, hard constraints, strict-accounting success metric).</li>
+    <li>Run data model: tool calls, handoff events, ledger of confirmed cash arrivals.</li>
+    <li>Failure-mode coding scheme: capability ceiling, refusal patterns, honest-zero, handoff correctness, drift, time miscalibration.</li>
+    <li>Boundary-respect aggregate score with per-dimension breakdown.</li>
+    <li>PII redaction + amount bucketing for public dataset release.</li>
+    <li>Claude Code session JSONL → Run adapter.</li>
+    <li>18 passing tests. ~600 lines.</li>
+  </ul>
+
+  <h2>What's next</h2>
+  <p>Multi-account replication (consumer × small business × content creator × researcher). Workshop paper at ICML 2026 "Agents in the Wild." Open call for operator participants — DM if you want your account profile included.</p>
+
+  <footer>
+    <p>Built as part of the Hermes Agent pilot, 2026-05-24. Code MIT; protocol/paper CC-BY 4.0. The framework, paper, and this page were drafted by the AI agent under study and reviewed by the human operator — disclosure is part of the methodology.</p>
+  </footer>
+
+</div>
+</body>
+</html>
