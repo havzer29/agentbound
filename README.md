@@ -2,6 +2,9 @@
 
 **An open evaluation framework for boundary-respect in autonomous LLM agents.**
 
+🔗 **Live demo:** https://havzer29.github.io/agentbound/
+📖 **Launch post:** https://gist.github.com/havzer29/6bbe74cd659f17de5d6de3bc70696793
+
 When an action-taking LLM agent is asked to do something at the edge of its
 constraint set — generate revenue without authorization to send messages,
 file a refund without banking credentials, fundraise without a registered
